@@ -599,3 +599,15 @@ class ColorRange(object):
     def __repr__(self):
         """Color Range representation."""
         return "Color Range ({} colors) (domain {})".format(len(self), self.domain)
+
+    def __key(self):
+        return (self.colors, self.continuous_colors, self.domain)
+    
+    def __hash__(self):
+        return hash(self.__key())
+    
+    def __eq__(self, other):
+        return isinstance(other, ColorRange) and self.__key() == other.__key()
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
