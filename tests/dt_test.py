@@ -211,3 +211,20 @@ def test_pickle_and_unpickle():
     assert pickle.loads(serialized_dt1) == dt1
     assert pickle.loads(serialized_dt2) == dt2
     assert pickle.loads(serialized_dt3) == dt3
+
+def test_equality():
+    dt_one = DateTime()
+    dt_one_duplicate = DateTime()
+    dt_two = DateTime(6, 12)
+    
+    time_one = Time()
+    time_one_duplicate = Time()
+    time_two = Time(11, 25)
+
+    assert dt_one == dt_one_duplicate
+    assert dt_one != dt_two
+    assert hash(dt_one) == hash(dt_one_duplicate)
+
+    assert time_one == time_one_duplicate
+    assert time_one != time_two
+    assert hash(time_one) == hash(time_one_duplicate)
