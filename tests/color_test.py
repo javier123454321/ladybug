@@ -163,7 +163,7 @@ def test_color_range_to_from_dict():
     assert new_color.to_dict() == color_range_dict
 
 def test_equivalent_color_equal():
-    """Test that matching colors evaluate true when comparing them"""
+    """Test that equivalent Color and ColorRange classes evaluate true when testing if equal"""
     color_one = Color(255, 255, 255)
     color_one_duplicate = Color(255, 255, 255)
     color_two = Color(250, 255, 255)
@@ -171,4 +171,13 @@ def test_equivalent_color_equal():
     assert color_one == color_one_duplicate
     assert hash(color_one) == hash(color_one_duplicate)
     assert color_one != color_two
+
+    color_range_one = ColorRange([color_two, color_one])
+    color_range_one_duplicate = ColorRange([color_two, color_one])
+    color_range_two = ColorRange([color_two, Color(140, 140, 140)])
+
+    assert color_range_one == color_range_one_duplicate
+    assert hash(color_range_one) == hash(color_range_one_duplicate)
+    assert color_range_two != color_range_one
+
 
