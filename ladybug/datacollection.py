@@ -535,7 +535,27 @@ class HourlyDiscontinuousCollection(BaseCollection):
         return "{} Discontinuous Data Collection\n{}\n{} ({})\n...{} values...".format(
             self.timestep_text, self.header.analysis_period,
             self.header.data_type, self.header.unit, len(self._values))
+        
+    def __key(self):
+        return(self.average, self.bounds, self.datetimes, self.header.analysis_period,
+                self.header.data_type, self.header.unit, self.is_continuous, self.is_mutable,
+                self.max, self.median, self.min, frozenset(self.moys_dict), self.timestep_text, self.total, 
+                self.validated_a_period, self.values)
 
+    def __hash__(self):
+        # to_hash = []
+        # print(type(self.__key()[11]))
+        for i in range(len(self.__key())):
+            print(f"self.key[{i}] = {type(self.__key()[i])}")
+        #     print(f"hash of {i} = {hash(self.__key()[i])}")
+            # to_hash.append(hash(self.__key()[i]))
+        return hash(self.__key())
+
+    def __eq__(self, other):
+        return isinstance(other, HourlyDiscontinuousCollection) and self.__key() == other.__key()
+    
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 class HourlyContinuousCollection(HourlyDiscontinuousCollection):
     """Class for Continuous Data Collections at hourly or sub-hourly intervals.
