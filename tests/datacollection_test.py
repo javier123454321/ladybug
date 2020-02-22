@@ -1197,3 +1197,20 @@ def test_is_in_range_data_type():
     assert not dc2.is_in_data_type_range(raise_exception=False)
     assert dc3.is_in_data_type_range(raise_exception=False)
     assert not dc4.is_in_data_type_range(raise_exception=False)
+
+def test_equivalent_is_equal():
+    values1 = [1] * 8760
+    values2 = [2] * 8760
+    header = Header(Temperature(), 'C', AnalysisPeriod())
+    dc_one = HourlyDiscontinuousCollection(header, values1,
+                                       header.analysis_period.datetimes)
+    dc_one_dup = HourlyDiscontinuousCollection(header, values1,
+                                       header.analysis_period.datetimes)
+    dc_two = HourlyDiscontinuousCollection(header, values2,
+                                       header.analysis_period.datetimes)
+
+    assert dc_one == dc_one_dup
+    assert dc_one != dc_two
+    assert hash(dc_one) == hash(dc_one_dup)
+    assert hash(dc_one) != hash(dc_two)
+
